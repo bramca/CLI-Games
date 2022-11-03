@@ -73,7 +73,7 @@ You can run the game with the command `python3 hearts.py`
 `number keys` decide which card you want to play.
 
 ## Rules
-The rules for this game are almost the same as normal *Hearts* except for a few additions (based on the cafe rules played in Ninove).<br>
+The rules for this game are almost the same as normal *Hearts* except for a few additions (based on the cafe rules played in Ninove, Belgium).<br>
 All heart cards are worth 1 point, except for the Lady which is worth 14 points.<br>
 All the other Ladies are worth 13 points.<br>
 If an Ace or King is played, any following player that has the Lady of that particular suit has to play it.<br>
