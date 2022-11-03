@@ -48,6 +48,7 @@ class Shape:
                 y += 1
                 x = self.pos[1]
             elif ch == "#":
+                ch = "@"
                 object = {
                     "ch": ch,
                     "pos": [y, x]
@@ -115,7 +116,7 @@ def main(stdscr):
     # random colors
     stdscr.clear()
     sh = 30
-    sw = 30
+    sw = 20
     scr_sh, scr_sw = stdscr.getmaxyx()
     if scr_sh < sh or scr_sw < sw:
         sh, sw = stdscr.getmaxyx()
@@ -188,7 +189,6 @@ def main(stdscr):
                 draw_objects([obj["pos"]], stdscr, obj["ch"], obj["color"])
             for obj in shape.objects:
                 draw_objects([obj["pos"]], stdscr, obj["ch"], shape.color)
-            stdscr.refresh()
             counter += 1
             counter %= curr_speed
 
