@@ -8,7 +8,7 @@ Only works on Unix-like systems as it needs [curses](https://en.wikipedia.org/wi
 `curses`
 
 # Snake
-The well known classic game [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)).<br>
+The well known classic game [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)).
 
 ## How to run
 You can run the game with the command `python3 snake_game.py`
@@ -62,3 +62,19 @@ You can run the game with the command `python3 tetris.py`
 `p` pause the game.<br>
 `r` restart the game.<br>
 `q` quit the game.<br>
+
+# Hearts
+The famous card game [Hearts](https://en.wikipedia.org/wiki/Hearts_(card_game)).
+
+## How to run
+You can run the game with the command `python3 hearts.py`
+
+## Controls
+`number keys` decide which card you want to play.
+
+## Rules
+The rules for this game are almost the same as normal *Hearts* except for a few additions (based on the cafe rules played in Ninove).<br>
+All heart cards are worth 1 point, except for the Lady which is worth 14 points.<br>
+All the other Ladies are worth 13 points.<br>
+If an Ace or King is played, any following player that has the Lady of that particular suit has to play it.<br>
+If you cannot follow the suit that is on the table. You must first lay down your hearts, starting with the Lady if in hand. Once all your hearts are gone, you can lay down your Ladies if in hand.
