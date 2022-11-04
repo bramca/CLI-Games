@@ -64,6 +64,7 @@ You can run the game with the command `python3 tetris.py <username>`
 `arrow up` rotate the piece.<br>
 `arrow down` move the piece.<br>
 `arrow left/right` move the piece to the left/right.<br>
+`space` move the piece straight down.<br>
 `p` pause the game.<br>
 `r` restart the game.<br>
 `q` quit the game.<br>
