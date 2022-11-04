@@ -54,7 +54,7 @@ Scoring is equal to amount of points you gathered.<br>
 If you quit or it is Game Over, your score will be written to *maze_runner_highscores.txt* file in the root folder of this repo.
 
 # Tetris
-![tetris](./img/tetris_screenshot.png)
+![tetris](./img/tetris_screenshot.png)<br>
 The well known classic game [Tetris](https://en.wikipedia.org/wiki/Tetris).<br>
 
 ## How to run

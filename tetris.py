@@ -156,7 +156,7 @@ def main(stdscr):
         curses.init_pair(i+1, i, -1)
     # random colors
     stdscr.clear()
-    sh = 30
+    sh = 25
     sw = 20
     scr_sh, scr_sw = stdscr.getmaxyx()
     if scr_sh < sh or scr_sw < sw:
