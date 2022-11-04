@@ -8,10 +8,11 @@ Only works on Unix-like systems as it needs [curses](https://en.wikipedia.org/wi
 `curses`
 
 # Snake
+![snake game](./img/snake_game_screenshot.png)
 The well known classic game [Snake](https://en.wikipedia.org/wiki/Snake_(video_game_genre)).
 
 ## How to run
-You can run the game with the command `python3 snake_game.py`
+You can run the game with the command `python3 snake_game.py <username>`
 
 ## Controls
 `arrow keys` navigate your snake through the field.<br>
@@ -25,7 +26,8 @@ You can run the game with the command `python3 snake_game.py`
 `*` these are foods randomly placed on the field. They increase your *Snake* length by 1.<br>
 `%` these are super foods. They increase your *Snake* length by 5.<br>
 
-Scoring is equal to the size of your *Snake*.
+Scoring is equal to the size of your *Snake*.<br>
+If you quit or it is Game Over, your score will be written to *snake_highscores.txt* file in the root folder of this repo.
 
 # Maze Runner
 A self made game trying out the [Wave Function Collapse Algorithm](https://github.com/mxgmn/WaveFunctionCollapse) to generate an endless maze.

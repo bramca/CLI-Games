@@ -1,5 +1,6 @@
 import curses
 import random
+import sys
 from curses import textpad
 
 # tutorial: https://www.youtube.com/watch?v=BvbqI6eDh0c
@@ -20,6 +21,16 @@ from curses import textpad
 #     for y, x in obstacles:
 #         stdscr.addstr(y, x, '&')
 
+def write_highscores(highscore_file, score, username):
+    file = open(highscore_file, "r")
+    highscores = file.read().splitlines()
+    file.close()
+    file = open(highscore_file, "w")
+    highscores.append("{} - {}".format(score, username))
+    highscores.sort(key=lambda x : int(x.split("-")[0]), reverse=True)
+    file.write("\n".join(highscores))
+    file.close()
+
 def draw_score(score, stdscr, box):
     stdscr.addstr(box[0][0]-1, box[0][1], "score: {}".format(score))
 
@@ -29,6 +40,7 @@ def draw_objects(objects, stdscr, ch, color):
         stdscr.addstr(y, x, ch, color)
 
 def main(stdscr):
+    username = sys.argv[1]
     curses.curs_set(0)
     curses.start_color()
     curses.use_default_colors()
@@ -92,6 +104,7 @@ def main(stdscr):
     max_speed = 60
     gameover = False
     paused = False
+    highscore_file = "snake_highscores.txt"
     while 1:
         key = stdscr.getch()
         # stdscr.addstr(4, 4, "snake_color: {}".format(snake_color))
@@ -144,6 +157,7 @@ def main(stdscr):
             if snake[0][0] in [box[0][0], box[1][0]] or snake[0][1] in [box[0][1], box[1][1]] or snake[0] in snake[1:-1] or snake[0] in obstacles:
                 stdscr.addstr(startpos[0], startpos[1]-10, 'Game Over')
                 gameover = True
+                write_highscores(highscore_file, score, username)
             textpad.rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
             draw_objects(snake, stdscr, snake_ch, snake_color)
             draw_objects(food, stdscr, food_ch, food_color)
@@ -161,6 +175,7 @@ def main(stdscr):
             obstaclecounter %= obstaclecounter_speed
 
         if key == ord('q'):
+            write_highscores(highscore_file, score, username)
             break
         if key == ord('r'):
             direction = curses.KEY_RIGHT

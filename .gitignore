@@ -3,6 +3,8 @@
 *.log
 tmp/
 
+*_highscores.txt
+
 *.py[cod]
 *.egg
 build
