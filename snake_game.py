@@ -161,7 +161,8 @@ def main(stdscr):
             obstaclecounter %= obstaclecounter_speed
 
         if key == ord('q'):
-            write_highscores(highscore_file, score, username)
+            if not gameover:
+                write_highscores(highscore_file, score, username)
             break
         if key == ord('r'):
             direction = curses.KEY_RIGHT

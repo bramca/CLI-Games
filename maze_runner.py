@@ -548,7 +548,8 @@ def main(stdscr):
                 player_lasers -= 1
                 can_shoot = False
         if key == ord('q'):
-            write_highscores(highscore_file, score, username)
+            if not gameover:
+                write_highscores(highscore_file, score, username)
             break
         if key == ord('r'):
             direction = curses.KEY_UP
