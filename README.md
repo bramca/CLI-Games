@@ -34,7 +34,7 @@ If you quit or it is Game Over, your score will be written to *snake_highscores.
 A self made game trying out the [Wave Function Collapse Algorithm](https://github.com/mxgmn/WaveFunctionCollapse) to generate an endless maze.
 
 ## How to run
-You can run the game with the command `python3 maze_runner.py`
+You can run the game with the command `python3 maze_runner.py <username>`
 
 ## Controls
 `arrow keys` navigate your character through the maze.<br>
@@ -50,13 +50,15 @@ You can run the game with the command `python3 maze_runner.py`
 `>` missiles flying through the maze, killing your character on collision.<br>
 `%` ammo box refilling your laser gun.<br>
 
-Scoring is equal to amount of points you gathered.
+Scoring is equal to amount of points you gathered.<br>
+If you quit or it is Game Over, your score will be written to *maze_runner_highscores.txt* file in the root folder of this repo.
 
-# Tetris (WIP)
+# Tetris
+![tetris](./img/tetris_screenshot.png)
 The well known classic game [Tetris](https://en.wikipedia.org/wiki/Tetris).<br>
 
 ## How to run
-You can run the game with the command `python3 tetris.py`
+You can run the game with the command `python3 tetris.py <username>`
 
 ## Controls
 `arrow up` rotate the piece.<br>
@@ -65,6 +67,33 @@ You can run the game with the command `python3 tetris.py`
 `p` pause the game.<br>
 `r` restart the game.<br>
 `q` quit the game.<br>
+
+Scoring is according to the Original BPS scoring system:<br>
+<table>
+  <tr>
+    <th>Line clear</th>
+    <th>Points</th>
+  </tr>
+  <tr>
+    <td>1 (single)</td>
+    <td>4</td>
+  </tr>
+  <tr>
+    <td>2 (double)</td>
+    <td>10</td>
+  </tr>
+  <tr>
+    <td>3 (triple)</td>
+    <td>30</td>
+  </tr>
+  <tr>
+    <td>4 (tetris)</td>
+    <td>120</td>
+  </tr>
+</table>
+
+If you quit or it is Game Over, your score will be written to *tetris_highscores.txt* file in the root folder of this repo.
+
 
 # Hearts
 The famous card game [Hearts](https://en.wikipedia.org/wiki/Hearts_(card_game)).
