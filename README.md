@@ -15,21 +15,22 @@ The well known classic game [Snake](https://en.wikipedia.org/wiki/Snake_(video_g
 You can run the game with the command `python3 snake_game.py <username>`
 
 ## Controls
-`arrow keys` navigate your snake through the field.<br>
+`arrow keys` navigate your **Snake** through the field.<br>
 `p` pause the game.<br>
 `r` restart the game.<br>
 `q` quit the game.<br>
 
 ## Game Objects
-`#` these are part of your Snake.<br>
+`#` these are part of your **Snake**.<br>
 `&` these are generated obstacles you must avoid.<br>
-`*` these are foods randomly placed on the field. They increase your *Snake* length by 1.<br>
-`%` these are super foods. They increase your *Snake* length by 5.<br>
+`*` these are foods randomly placed on the field. They increase your **Snake** length by 1.<br>
+`%` these are super foods. They increase your **Snake** length by 5.<br>
 
-Scoring is equal to the size of your *Snake*.<br>
+Scoring is equal to the size of your **Snake**.<br>
 If you quit or it is Game Over, your score will be written to *snake_highscores.txt* file in the root folder of this repo.
 
 # Maze Runner
+![maze runner](./img/maze_runner_screenshot.png)
 A self made game trying out the [Wave Function Collapse Algorithm](https://github.com/mxgmn/WaveFunctionCollapse) to generate an endless maze.
 
 ## How to run

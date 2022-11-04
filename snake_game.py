@@ -1,35 +1,21 @@
 import curses
 import random
+import os.path
 import sys
 from curses import textpad
 
-# tutorial: https://www.youtube.com/watch?v=BvbqI6eDh0c
-
-# def draw_snake(snake, stdscr):
-#     for y, x in snake:
-#         stdscr.addstr(y, x, '#')
-
-# def draw_food(food, stdscr):
-#     for y, x in food:
-#         stdscr.addstr(y, x, '*')
-
-# def draw_superfood(superfood, stdscr):
-#     for y, x in superfood:
-#         stdscr.addstr(y, x, '%')
-
-# def draw_obstacles(obstacles, stdscr):
-#     for y, x in obstacles:
-#         stdscr.addstr(y, x, '&')
-
 def write_highscores(highscore_file, score, username):
-    file = open(highscore_file, "r")
-    highscores = file.read().splitlines()
-    file.close()
-    file = open(highscore_file, "w")
-    highscores.append("{} - {}".format(score, username))
-    highscores.sort(key=lambda x : int(x.split("-")[0]), reverse=True)
-    file.write("\n".join(highscores))
-    file.close()
+    if score > 0:
+        highscores = []
+        if os.path.exists(highscore_file):
+            file = open(highscore_file, "r")
+            highscores = file.read().splitlines()
+            file.close()
+        file = open(highscore_file, "w")
+        highscores.append("{} - {}".format(score, username))
+        highscores.sort(key=lambda x : int(x.split("-")[0]), reverse=True)
+        file.write("\n".join(highscores))
+        file.close()
 
 def draw_score(score, stdscr, box):
     stdscr.addstr(box[0][0]-1, box[0][1], "score: {}".format(score))

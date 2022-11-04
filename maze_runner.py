@@ -1,4 +1,6 @@
 import curses
+import sys
+import os.path
 import copy
 import random
 from curses import textpad
@@ -60,6 +62,19 @@ neighbours = {
     10: "0011",
     11: "0110"
 }
+
+def write_highscores(highscore_file, score, username):
+    if score > 0:
+        highscores = []
+        if os.path.exists(highscore_file):
+            file = open(highscore_file, "r")
+            highscores = file.read().splitlines()
+            file.close()
+        file = open(highscore_file, "w")
+        highscores.append("{} - {}".format(score, username))
+        highscores.sort(key=lambda x : int(x.split("-")[0]), reverse=True)
+        file.write("\n".join(highscores))
+        file.close()
 
 def draw_score(score, stdscr, box):
     stdscr.addstr(box[0][0]-1, box[0][1], "score: {}".format(score))
@@ -218,6 +233,7 @@ def row_to_objects(grid_rows_string, grid_rows_pos, obstacles, coins, ammo_boxes
 # main()
 
 def main(stdscr):
+    username = sys.argv[1]
     grid = []
     grid_props = []
 
@@ -287,6 +303,7 @@ def main(stdscr):
     row_to_objects(grid_rows_string, grid_rows_pos, obstacles, coins, ammo_boxes, False, missiles, False)
 
     score = 0
+    highscore_file = "maze_runner_highscores.txt"
     direction = curses.KEY_UP
     dir_dict = {
         curses.KEY_RIGHT: [1, 1],
@@ -386,6 +403,7 @@ def main(stdscr):
                             if player[0][dir_dict[curses.KEY_DOWN][0]] + dir_dict[curses.KEY_DOWN][1] not in [box[0][0], box[0][1], box[1][0], box[1][1]]:
                                 if player[0][0] in [box[0][0], box[1][0]] or player[0][1] in [box[0][1], box[1][1]]:
                                     stdscr.addstr(startpos[0], startpos[1]-10, 'Game Over')
+                                    write_highscores(highscore_file, score, username)
                                     gameover = True
                 for coin in coins:
                     if coin[0] + 1 == box[1][0]:
@@ -500,12 +518,14 @@ def main(stdscr):
 
             if player[0] in [missile["pos"] for missile in missiles]:
                 stdscr.addstr(startpos[0], startpos[1]-10, 'Game Over')
+                write_highscores(highscore_file, score, username)
                 gameover = True
 
             if player_copy in obstacles:
                 player_stop = True
             elif player_copy[0] in [box[0][0], box[1][0]] or player_copy[1] in [box[0][1], box[1][1]]:
                 stdscr.addstr(startpos[0], startpos[1]-10, 'Game Over')
+                write_highscores(highscore_file, score, username)
                 gameover = True
             else:
                 player_stop = False
@@ -528,6 +548,7 @@ def main(stdscr):
                 player_lasers -= 1
                 can_shoot = False
         if key == ord('q'):
+            write_highscores(highscore_file, score, username)
             break
         if key == ord('r'):
             direction = curses.KEY_UP
