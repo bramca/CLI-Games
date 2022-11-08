@@ -1,6 +1,6 @@
 import curses
 import random
-import os.path
+import os
 import sys
 from curses import textpad
 
@@ -27,16 +27,21 @@ def draw_objects(objects, stdscr, ch, color):
 
 def main(stdscr):
     username = sys.argv[1]
+    snake_color = 0
+    food_color = 0
+    superfood_color = 0
+    obstacle_color = 0
     curses.curs_set(0)
     curses.start_color()
     curses.use_default_colors()
-    for i in range(0, curses.COLORS):
-        curses.init_pair(i+1, i, -1)
-    # random colors
-    snake_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
-    food_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
-    superfood_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
-    obstacle_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+    if os.name != "nt":
+        for i in range(0, curses.COLORS):
+            curses.init_pair(i+1, i, -1)
+            # random colors
+            snake_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+            food_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+            superfood_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+            obstacle_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
 
     # fixed colors
     # snake_color = curses.color_pair(curses.COLOR_GREEN+1)
@@ -69,10 +74,10 @@ def main(stdscr):
     obstacles = []
     obstacle_size = 40
     max_obstacles = 40
-    obstaclecounter_speed = 100
+    obstaclecounter_speed = 100 if os.name != "nt" else 4
     superfood_weight = 5
-    foodcounter_speed = 2000
-    superfoodcounter_speed = 4500
+    foodcounter_speed = 2000 if os.name != "nt" else 30
+    superfoodcounter_speed = 4500 if os.name != "nt" else 95
     direction = curses.KEY_RIGHT
     dir_dict = {
         curses.KEY_RIGHT: [1, 1],
@@ -87,7 +92,7 @@ def main(stdscr):
     foodcounter = 1
     superfoodcounter = 1
     obstaclecounter = 1
-    max_speed = 60
+    max_speed = 60 if os.name != "nt" else 2
     gameover = False
     paused = False
     highscore_file = "snake_highscores.txt"

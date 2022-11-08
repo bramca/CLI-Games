@@ -2,7 +2,7 @@ import curses
 import random
 import math
 import sys
-import os.path
+import os
 import copy
 from curses import textpad
 import re
@@ -152,8 +152,9 @@ def main(stdscr):
     curses.curs_set(0)
     curses.start_color()
     curses.use_default_colors()
-    for i in range(0, curses.COLORS):
-        curses.init_pair(i+1, i, -1)
+    if os.name != "nt":
+        for i in range(0, curses.COLORS):
+            curses.init_pair(i+1, i, -1)
     # random colors
     stdscr.clear()
     sh = 25
@@ -169,14 +170,25 @@ def main(stdscr):
 
     # fixed colors
     shape_colors = {
-        "line": curses.color_pair(curses.COLOR_RED+1),
-        "lshape": curses.color_pair(curses.COLOR_YELLOW+1),
-        "lshape_reversed": curses.color_pair(curses.COLOR_WHITE+1),
-        "zshape": curses.color_pair(curses.COLOR_CYAN+1),
-        "zshape_reversed": curses.color_pair(curses.COLOR_MAGENTA+1),
-        "block": curses.color_pair(curses.COLOR_BLUE+1),
-        "tshape": curses.color_pair(curses.COLOR_GREEN+1)
+        "line": 0,
+        "lshape": 0,
+        "lshape_reversed": 0,
+        "zshape": 0,
+        "zshape_reversed": 0,
+        "block": 0,
+        "tshape": 0
     }
+    if os.name != "nt":
+        shape_colors = {
+            "line": curses.color_pair(curses.COLOR_RED+1),
+            "lshape": curses.color_pair(curses.COLOR_YELLOW+1),
+            "lshape_reversed": curses.color_pair(curses.COLOR_WHITE+1),
+            "zshape": curses.color_pair(curses.COLOR_CYAN+1),
+            "zshape_reversed": curses.color_pair(curses.COLOR_MAGENTA+1),
+            "block": curses.color_pair(curses.COLOR_BLUE+1),
+            "tshape": curses.color_pair(curses.COLOR_GREEN+1)
+        }
+
 
     # shape = Shape(SHAPES[random.choice(list(SHAPES.keys()))], startpos, curses.color_pair(random.randrange(0, curses.COLORS-1)))
     # next_shape = Shape(SHAPES[random.choice(list(SHAPES.keys()))], next_shape_pos, curses.color_pair(random.randrange(0, curses.COLORS-1)))
@@ -203,10 +215,10 @@ def main(stdscr):
     stdscr.nodelay(1)
     stdscr.timeout(1)
     counter = 1
-    start_speed = 300
+    start_speed = 300 if os.name != "nt" else 12
     curr_speed = start_speed
     next_level = 150
-    max_speed = 50
+    max_speed = 50 if os.name != "nt" else 2
     gameover = False
     paused = False
     while 1:
@@ -239,7 +251,10 @@ def main(stdscr):
                 if n_lines > 0:
                     score += scoring[n_lines - 1]
                     if score >= next_level and curr_speed > max_speed:
-                        curr_speed -= 10
+                        if os.name != "nt":
+                            curr_speed -= 10
+                        else:
+                            curr_speed -= 1
                         next_level += 150
 
                 shape = Shape(next_shape.shape, startpos, next_shape.color)

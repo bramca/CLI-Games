@@ -1,6 +1,6 @@
 import curses
 import sys
-import os.path
+import os
 import copy
 import random
 from curses import textpad
@@ -242,18 +242,26 @@ def main(stdscr):
     new_grid_rows_string = []
     new_grid_rows_pos = []
 
+    player_color = 0
+    obstacle_color = 0
+    coin_color = 0
+    laser_color = 0
+    ammo_box_color = 0
+    missile_color = 0
+
     curses.curs_set(0)
     curses.start_color()
     curses.use_default_colors()
-    for i in range(0, curses.COLORS):
-        curses.init_pair(i+1, i, -1)
-    # random colors
-    player_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
-    obstacle_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
-    coin_color = curses.color_pair(curses.COLOR_WHITE+1)
-    laser_color = curses.color_pair(curses.COLOR_RED+1)
-    ammo_box_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
-    missile_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+    if os.name != "nt":
+        for i in range(0, curses.COLORS):
+            curses.init_pair(i+1, i, -1)
+        # random colors
+        player_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+        obstacle_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+        coin_color = curses.color_pair(curses.COLOR_WHITE+1)
+        laser_color = curses.color_pair(curses.COLOR_RED+1)
+        ammo_box_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
+        missile_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
 
     player_ch = '@'
     obstacle_ch = '#'
@@ -326,11 +334,11 @@ def main(stdscr):
 
     stdscr.nodelay(1)
     stdscr.timeout(1)
-    max_speed = 100
-    max_speed_obstacles = 400
-    min_speed_obstacles = 200
-    max_speed_lasers = 30
-    max_speed_missiles = 50
+    max_speed = 100 if os.name != "nt" else 3
+    max_speed_obstacles = 400 if os.name != "nt" else 16
+    min_speed_obstacles = 200 if os.name != "nt" else 8
+    max_speed_lasers = 30 if os.name != "nt" else 1
+    max_speed_missiles = 50 if os.name != "nt" else 2
     counter_obstacles = 1
     counter_lasers = 1
     counter_missiles = 1
@@ -539,7 +547,10 @@ def main(stdscr):
             counter_missiles += 1
             counter_missiles %= max_speed_missiles
             if score > 0 and score % 50 == 0 and max_speed_obstacles > min_speed_obstacles:
-                max_speed_obstacles -= 10
+                if os.name != "nt":
+                    max_speed_obstacles -= 10
+                else:
+                    max_speed_obstacles -= 1
                 score += 1
 
         if key == ord('f'):
@@ -565,7 +576,7 @@ def main(stdscr):
             counter_obstacles = 1
             counter_lasers = 1
             counter_missiles = 1
-            max_speed_obstacles = 400
+            max_speed_obstacles = 400 if os.name != "nt" else 16
             player_lasers = max_lasers
             gameover = False
             grid = []
