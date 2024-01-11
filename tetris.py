@@ -7,6 +7,8 @@ import copy
 from curses import textpad
 import re
 
+username = "no name"
+
 SHAPES = {
     "line": '''
 #
@@ -148,7 +150,6 @@ def check_lines(obstacles, max_chars):
 # main()
 
 def main(stdscr):
-    username = sys.argv[1]
     curses.curs_set(0)
     curses.start_color()
     curses.use_default_colors()
@@ -327,5 +328,10 @@ def main(stdscr):
             else:
                 paused = False
                 stdscr.erase()
+
+if len(sys.argv) < 2:
+    username = input("Please provide your player name: ")
+else:
+    username = sys.argv[1]
 
 curses.wrapper(main)

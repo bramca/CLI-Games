@@ -4,6 +4,8 @@ import os
 import sys
 from curses import textpad
 
+username = "no name"
+
 def write_highscores(highscore_file, score, username):
     if score > 0:
         highscores = []
@@ -26,7 +28,6 @@ def draw_objects(objects, stdscr, ch, color):
         stdscr.addstr(y, x, ch, color)
 
 def main(stdscr):
-    username = sys.argv[1]
     snake_color = 0
     food_color = 0
     superfood_color = 0
@@ -191,5 +192,10 @@ def main(stdscr):
             else:
                 paused = False
                 stdscr.erase()
+
+if len(sys.argv) < 2:
+    username = input("Please provide your player name: ")
+else:
+    username = sys.argv[1]
 
 curses.wrapper(main)

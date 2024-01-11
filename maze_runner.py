@@ -5,6 +5,8 @@ import copy
 import random
 from curses import textpad
 
+username = "no name"
+
 options = [
 '''#.#
 ...
@@ -233,7 +235,6 @@ def row_to_objects(grid_rows_string, grid_rows_pos, obstacles, coins, ammo_boxes
 # main()
 
 def main(stdscr):
-    username = sys.argv[1]
     grid = []
     grid_props = []
 
@@ -618,5 +619,10 @@ def main(stdscr):
             else:
                 paused = False
                 stdscr.erase()
+
+if len(sys.argv) < 2:
+    username = input("Please provide your player name: ")
+else:
+    username = sys.argv[1]
 
 curses.wrapper(main)
