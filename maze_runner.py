@@ -255,7 +255,7 @@ def main(stdscr):
     curses.use_default_colors()
     if os.name != "nt":
         for i in range(0, curses.COLORS):
-            curses.init_pair(i+1, i, -1)
+            curses.init_pair(i, i, -1)
         # random colors
         player_color = curses.color_pair(random.randrange(0, curses.COLORS-1))
         obstacle_color = curses.color_pair(random.randrange(0, curses.COLORS-1))

@@ -155,7 +155,7 @@ def main(stdscr):
     curses.use_default_colors()
     if os.name != "nt":
         for i in range(0, curses.COLORS):
-            curses.init_pair(i+1, i, -1)
+            curses.init_pair(i, i, -1)
     # random colors
     stdscr.clear()
     sh = 25
