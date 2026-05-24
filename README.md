@@ -96,6 +96,21 @@ Scoring is according to the Original BPS scoring system:<br>
 If you quit or it is Game Over, your score will be written to *tetris_highscores.txt* file in the root folder of this repo.
 
 
+# Typing Game
+A typing game where C++ algorithm snippets (factorial, sorting, searching, etc.) are displayed and you must type them character by character. Correct keystrokes turn green, incorrect turn red.
+
+## How to run
+You can run the game with the command `python3 typing_game.py <username>`
+
+## Controls
+Type the characters shown on screen.<br>
+`enter` advance to the next line (auto-fills indentation).<br>
+`backspace` go back one character.<br>
+`esc` quit the game.<br>
+
+10 random snippets are selected each run.<br>
+When all snippets are done, your accuracy and WPM are displayed, and your score is written to *typing_highscores.txt*.
+
 # Hearts
 The famous card game [Hearts](https://en.wikipedia.org/wiki/Hearts_(card_game)).
 
