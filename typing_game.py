@@ -5,7 +5,7 @@ import os
 import time
 
 username = "no name"
-n_snippets = 10
+n_snippets = 5
 
 C_SNIPPETS = [
     R"""int factorial(int n) {
@@ -187,110 +187,330 @@ C_SNIPPETS = [
     }
     return sum == n;
 }""",
+]
+
+RUST_SNIPPETS = [
+    R"""fn factorial(n: u32) -> u32 {
+    if n <= 1 {
+        return 1;
+    }
+    n * factorial(n - 1)
+}""",
+    R"""fn gcd(a: u32, b: u32) -> u32 {
+    let mut a = a;
+    let mut b = b;
+    while b != 0 {
+        let t = b;
+        b = a % b;
+        a = t;
+    }
+    a
+}""",
+    R"""fn bubble_sort(arr: &mut [i32]) {
+    let n = arr.len();
+    for i in 0..n {
+        for j in 0..n - i - 1 {
+            if arr[j] > arr[j + 1] {
+                arr.swap(j, j + 1);
+            }
+        }
+    }
+}""",
+    R"""fn fibonacci(n: u32) -> u32 {
+    if n <= 1 {
+        return n;
+    }
+    let (mut a, mut b) = (0, 1);
+    for _ in 2..=n {
+        let c = a + b;
+        a = b;
+        b = c;
+    }
+    b
+}""",
+    R"""fn is_prime(n: u32) -> bool {
+    if n <= 1 {
+        return false;
+    }
+    if n <= 3 {
+        return true;
+    }
+    if n % 2 == 0 || n % 3 == 0 {
+        return false;
+    }
+    let mut i = 5;
+    while i * i <= n {
+        if n % i == 0 || n % (i + 2) == 0 {
+            return false;
+        }
+        i += 6;
+    }
+    true
+}""",
+    R"""fn binary_search(arr: &[i32], x: i32) -> i32 {
+    let (mut l, mut r) = (0, arr.len() as i32 - 1);
+    while l <= r {
+        let m = l + (r - l) / 2;
+        if arr[m as usize] == x {
+            return m;
+        }
+        if arr[m as usize] < x {
+            l = m + 1;
+        } else {
+            r = m - 1;
+        }
+    }
+    -1
+}""",
+    R"""fn selection_sort(arr: &mut [i32]) {
+    let n = arr.len();
+    for i in 0..n - 1 {
+        let mut min_idx = i;
+        for j in i + 1..n {
+            if arr[j] < arr[min_idx] {
+                min_idx = j;
+            }
+        }
+        arr.swap(i, min_idx);
+    }
+}""",
+    R"""fn linear_search(arr: &[i32], x: i32) -> i32 {
+    for (i, &val) in arr.iter().enumerate() {
+        if val == x {
+            return i as i32;
+        }
+    }
+    -1
+}""",
+    R"""fn sum_array(arr: &[i32]) -> i32 {
+    let mut sum = 0;
+    for &x in arr {
+        sum += x;
+    }
+    sum
+}""",
+    R"""fn str_len(s: &str) -> usize {
+    let mut len = 0;
+    for _ in s.chars() {
+        len += 1;
+    }
+    len
+}""",
+    R"""fn reverse_array(arr: &mut [i32]) {
+    let n = arr.len();
+    for i in 0..n / 2 {
+        arr.swap(i, n - 1 - i);
+    }
+}""",
+    R"""fn insertion_sort(arr: &mut [i32]) {
+    for i in 1..arr.len() {
+        let key = arr[i];
+        let mut j = i as i32 - 1;
+        while j >= 0 && arr[j as usize] > key {
+            arr[(j + 1) as usize] = arr[j as usize];
+            j -= 1;
+        }
+        arr[(j + 1) as usize] = key;
+    }
+}""",
+    R"""fn partition(arr: &mut [i32]) -> usize {
+    let pivot = arr[arr.len() - 1];
+    let mut i = 0;
+    for j in 0..arr.len() - 1 {
+        if arr[j] <= pivot {
+            arr.swap(i, j);
+            i += 1;
+        }
+    }
+    arr.swap(i, arr.len() - 1);
+    i
+}""",
+    R"""fn is_palindrome(s: &str) -> bool {
+    let chars: Vec<char> = s.chars().collect();
+    let (mut left, mut right) = (0, chars.len() - 1);
+    while left < right {
+        if chars[left] != chars[right] {
+            return false;
+        }
+        left += 1;
+        right -= 1;
+    }
+    true
+}""",
+    R"""fn power(base: u32, exp: u32) -> u32 {
+    if exp == 0 {
+        return 1;
+    }
+    if exp % 2 == 0 {
+        let half = power(base, exp / 2);
+        half * half
+    } else {
+        base * power(base, exp - 1)
+    }
+}""",
+    R"""fn count_char(s: &str, c: char) -> usize {
+    let mut count = 0;
+    for ch in s.chars() {
+        if ch == c {
+            count += 1;
+        }
+    }
+    count
+}""",
+    R"""fn find_max(arr: &[i32]) -> i32 {
+    let mut max = arr[0];
+    for &x in &arr[1..] {
+        if x > max {
+            max = x;
+        }
+    }
+    max
+}""",
+    R"""fn tower_of_hanoi(n: u32, from: char, to: char, aux: char) {
+    if n == 1 {
+        println!("Move 1 from {from} to {to}");
+        return;
+    }
+    tower_of_hanoi(n - 1, from, aux, to);
+    println!("Move {n} from {from} to {to}");
+    tower_of_hanoi(n - 1, aux, to, from);
+}""",
+    R"""fn digit_sum(mut n: u32) -> u32 {
+    let mut sum = 0;
+    while n != 0 {
+        sum += n % 10;
+        n /= 10;
+    }
+    sum
+}""",
+    R"""fn is_armstrong(n: u32) -> bool {
+    let mut sum = 0;
+    let mut tmp = n;
+    let mut digits = 0;
+    while tmp != 0 {
+        tmp /= 10;
+        digits += 1;
+    }
+    tmp = n;
+    while tmp != 0 {
+        let d = tmp % 10;
+        let mut p = 1;
+        for _ in 0..digits {
+            p *= d;
+        }
+        sum += p;
+        tmp /= 10;
+    }
+    sum == n
+}""",
     R"""struct Node {
-    int data;
-    struct Node* next;
-};
-
-struct Node* insertFront(struct Node* head, int val) {
-    struct Node* newNode = malloc(sizeof(struct Node));
-    newNode->data = val;
-    newNode->next = head;
-    return newNode;
-}""",
-    R"""struct Node* reverseList(struct Node* head) {
-    struct Node* prev = NULL;
-    struct Node* curr = head;
-    struct Node* next;
-    while (curr != NULL) {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
-    }
-    return prev;
-}""",
-    R"""void inorder(struct Node* root) {
-    if (root == NULL) return;
-    inorder(root->left);
-    printf("%d ", root->data);
-    inorder(root->right);
-}""",
-    R"""struct Node* searchBST(struct Node* root, int key) {
-    while (root != NULL && root->data != key) {
-        if (key < root->data)
-            root = root->left;
-        else
-            root = root->right;
-    }
-    return root;
-}""",
-    R"""void enqueue(int q[], int* rear, int size, int val) {
-    if (*rear == size - 1) return;
-    q[++(*rear)] = val;
+    data: i32,
+    next: Option<Box<Node>>,
 }
 
-int dequeue(int q[], int* front, int* rear) {
-    if (*front > *rear) return -1;
-    return q[(*front)++];
+fn insert_front(head: Option<Box<Node>>, val: i32) -> Option<Box<Node>> {
+    Some(Box::new(Node {
+        data: val,
+        next: head,
+    }))
 }""",
-    R"""#define MAX 100
-
-typedef struct {
-    int data[MAX];
-    int top;
-} Stack;
-
-void push(Stack* s, int val) {
-    if (s->top < MAX - 1)
-        s->data[++s->top] = val;
+    R"""fn reverse_list(head: Option<Box<Node>>) -> Option<Box<Node>> {
+    let mut prev = None;
+    let mut curr = head;
+    while let Some(mut node) = curr {
+        curr = node.next.take();
+        node.next = prev;
+        prev = Some(node);
+    }
+    prev
+}""",
+    R"""fn inorder(root: Option<&Box<TreeNode>>) {
+    if let Some(node) = root {
+        inorder(node.left.as_ref());
+        println!("{} ", node.val);
+        inorder(node.right.as_ref());
+    }
+}""",
+    R"""fn search_bst(root: Option<&Box<TreeNode>>, key: i32) -> Option<&Box<TreeNode>> {
+    let mut curr = root;
+    while let Some(node) = curr {
+        if node.val == key {
+            return curr;
+        }
+        if key < node.val {
+            curr = node.left.as_ref();
+        } else {
+            curr = node.right.as_ref();
+        }
+    }
+    None
+}""",
+    R"""fn enqueue(q: &mut Vec<i32>, val: i32) {
+    q.push(val);
 }
 
-int pop(Stack* s) {
-    if (s->top == -1) return -1;
-    return s->data[s->top--];
+fn dequeue(q: &mut Vec<i32>) -> Option<i32> {
+    if q.is_empty() {
+        return None;
+    }
+    Some(q.remove(0))
+}""",
+    R"""struct Stack {
+    data: Vec<i32>,
+}
+
+impl Stack {
+    fn push(&mut self, val: i32) {
+        self.data.push(val);
+    }
+
+    fn pop(&mut self) -> Option<i32> {
+        self.data.pop()
+    }
 }""",
     R"""struct TreeNode {
-    int val;
-    struct TreeNode* left;
-    struct TreeNode* right;
-};
+    val: i32,
+    left: Option<Box<TreeNode>>,
+    right: Option<Box<TreeNode>>,
+}
 
-struct TreeNode* createNode(int val) {
-    struct TreeNode* n = malloc(sizeof(struct TreeNode));
-    n->val = val;
-    n->left = n->right = NULL;
-    return n;
+fn create_node(val: i32) -> Option<Box<TreeNode>> {
+    Some(Box::new(TreeNode {
+        val,
+        left: None,
+        right: None,
+    }))
 }""",
-    R"""void caesarCipher(char* text, int shift) {
-    for (int i = 0; text[i] != '\0'; i++) {
-        if (text[i] >= 'a' && text[i] <= 'z')
-            text[i] = (text[i] - 'a' + shift) % 26 + 'a';
-        else if (text[i] >= 'A' && text[i] <= 'Z')
-            text[i] = (text[i] - 'A' + shift) % 26 + 'A';
+    R"""fn caesar_cipher(text: &mut [u8], shift: u8) {
+    for c in text.iter_mut() {
+        if *c >= b'a' && *c <= b'z' {
+            *c = (*c - b'a' + shift) % 26 + b'a';
+        } else if *c >= b'A' && *c <= b'Z' {
+            *c = (*c - b'A' + shift) % 26 + b'A';
+        }
     }
 }""",
-    R"""void xorCipher(char* data, int len, char key) {
-    for (int i = 0; i < len; i++)
-        data[i] ^= key;
-}""",
-    R"""unsigned long djb2(const char* str) {
-    unsigned long hash = 5381;
-    int c;
-    while ((c = *str++))
-        hash = ((hash << 5) + hash) + c;
-    return hash;
-}""",
-    R"""char* vigenereEncrypt(const char* text, const char* key) {
-    int len = strlen(text);
-    char* result = malloc(len + 1);
-    for (int i = 0; i < len; i++) {
-        char t = text[i] - 'A';
-        char k = key[i % strlen(key)] - 'A';
-        result[i] = (t + k) % 26 + 'A';
+    R"""fn xor_cipher(data: &mut [u8], key: u8) {
+    for byte in data.iter_mut() {
+        *byte ^= key;
     }
-    result[len] = '\0';
-    return result;
+}""",
+    R"""fn djb2(str: &[u8]) -> u64 {
+    let mut hash: u64 = 5381;
+    for &c in str {
+        hash = ((hash << 5).wrapping_add(hash)).wrapping_add(c as u64);
+    }
+    hash
+}""",
+    R"""fn vigenere_encrypt(text: &str, key: &str) -> String {
+    let key_bytes = key.as_bytes();
+    let mut result = String::new();
+    for (i, c) in text.bytes().enumerate() {
+        let t = c - b'A';
+        let k = key_bytes[i % key.len()] - b'A';
+        result.push(((t + k) % 26 + b'A') as char);
+    }
+    result
 }""",
 ]
 
@@ -443,7 +663,7 @@ def run_snippet(stdscr, snippet, start_y, start_x, total_correct, total_incorrec
     return (total_correct, total_incorrect)
 
 
-def main(stdscr):
+def main(stdscr, snippet_pool):
     curses.curs_set(2)
     curses.start_color()
     curses.use_default_colors()
@@ -454,7 +674,7 @@ def main(stdscr):
     stdscr.nodelay(0)
     stdscr.clear()
 
-    snippets = random.sample(C_SNIPPETS, n_snippets)
+    snippets = random.sample(snippet_pool, n_snippets)
 
     total_correct = 0
     total_incorrect = 0
@@ -519,4 +739,22 @@ if __name__ == "__main__":
         username = sys.argv[1]
     else:
         username = input("Please provide your player name: ")
-    curses.wrapper(main)
+
+    if len(sys.argv) > 2:
+        lang = sys.argv[2].lower()
+    else:
+        print("Select language:")
+        print("1. C++")
+        print("2. Rust")
+        choice = input("Enter number: ")
+        lang = "c++" if choice == "1" else "rust"
+
+    if "rust" in lang:
+        snippet_pool = RUST_SNIPPETS
+    else:
+        snippet_pool = C_SNIPPETS
+
+    def run(stdscr):
+        main(stdscr, snippet_pool)
+
+    curses.wrapper(run)

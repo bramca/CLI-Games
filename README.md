@@ -97,10 +97,12 @@ If you quit or it is Game Over, your score will be written to *tetris_highscores
 
 
 # Typing Game
-A typing game where C++ algorithm snippets (factorial, sorting, searching, etc.) are displayed and you must type them character by character. Correct keystrokes turn green, incorrect turn red.
+A typing game where algorithm snippets (factorial, sorting, searching, etc.) are displayed and you must type them character by character. Correct keystrokes turn green, incorrect turn red. Supports both C++ and Rust snippets.
 
 ## How to run
-You can run the game with the command `python3 typing_game.py <username>`
+You can run the game with the command `python3 typing_game.py <username> [language]`
+
+If `<language>` is omitted, you'll be prompted to choose between C++ and Rust.
 
 ## Controls
 Type the characters shown on screen.<br>
@@ -108,7 +110,7 @@ Type the characters shown on screen.<br>
 `backspace` go back one character.<br>
 `esc` quit the game.<br>
 
-10 random snippets are selected each run.<br>
+Random snippets are selected each run.<br>
 When all snippets are done, your accuracy and WPM are displayed, and your score is written to *typing_highscores.txt*.
 
 # Hearts
