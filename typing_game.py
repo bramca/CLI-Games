@@ -514,6 +514,321 @@ fn create_node(val: i32) -> Option<Box<TreeNode>> {
 }""",
 ]
 
+ZIG_SNIPPETS = [
+    R"""fn factorial(n: u32) u32 {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}""",
+    R"""fn gcd(a: u32, b: u32) u32 {
+    var x = a;
+    var y = b;
+    while (y != 0) {
+        const t = y;
+        y = x % y;
+        x = t;
+    }
+    return x;
+}""",
+    R"""fn bubbleSort(arr: []i32) void {
+    const n = arr.len;
+    for (0..n) |i| {
+        for (0..n - i - 1) |j| {
+            if (arr[j] > arr[j + 1]) {
+                const tmp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = tmp;
+            }
+        }
+    }
+}""",
+    R"""fn fibonacci(n: u32) u32 {
+    if (n <= 1) return n;
+    var a: u32 = 0;
+    var b: u32 = 1;
+    for (2..n + 1) |_| {
+        const c = a + b;
+        a = b;
+        b = c;
+    }
+    return b;
+}""",
+    R"""fn isPrime(n: u32) bool {
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 == 0 or n % 3 == 0) return false;
+    var i: u32 = 5;
+    while (i * i <= n) {
+        if (n % i == 0 or n % (i + 2) == 0) return false;
+        i += 6;
+    }
+    return true;
+}""",
+    R"""fn binarySearch(arr: []const i32, x: i32) i32 {
+    var l: usize = 0;
+    var r: usize = arr.len;
+    while (l < r) {
+        const m = l + (r - l) / 2;
+        if (arr[m] == x) return @intCast(m);
+        if (arr[m] < x) {
+            l = m + 1;
+        } else {
+            r = m;
+        }
+    }
+    return -1;
+}""",
+    R"""fn selectionSort(arr: []i32) void {
+    const n = arr.len;
+    for (0..n - 1) |i| {
+        var minIdx = i;
+        for (i + 1..n) |j| {
+            if (arr[j] < arr[minIdx]) {
+                minIdx = j;
+            }
+        }
+        const tmp = arr[i];
+        arr[i] = arr[minIdx];
+        arr[minIdx] = tmp;
+    }
+}""",
+    R"""fn linearSearch(arr: []const i32, x: i32) i32 {
+    for (arr, 0..) |val, i| {
+        if (val == x) return @intCast(i);
+    }
+    return -1;
+}""",
+    R"""fn sumArray(arr: []const i32) i32 {
+    var sum: i32 = 0;
+    for (arr) |x| {
+        sum += x;
+    }
+    return sum;
+}""",
+    R"""fn strLen(s: []const u8) usize {
+    var len: usize = 0;
+    for (s) |_| {
+        len += 1;
+    }
+    return len;
+}""",
+    R"""fn reverseArray(arr: []i32) void {
+    const n = arr.len;
+    for (0..n / 2) |i| {
+        const tmp = arr[i];
+        arr[i] = arr[n - 1 - i];
+        arr[n - 1 - i] = tmp;
+    }
+}""",
+    R"""fn insertionSort(arr: []i32) void {
+    var i: usize = 1;
+    while (i < arr.len) {
+        const key = arr[i];
+        var j: i32 = @intCast(i - 1);
+        while (j >= 0 and arr[@intCast(j)] > key) {
+            arr[@intCast(j + 1)] = arr[@intCast(j)];
+            j -= 1;
+        }
+        arr[@intCast(j + 1)] = key;
+        i += 1;
+    }
+}""",
+    R"""fn partition(arr: []i32) usize {
+    const pivot = arr[arr.len - 1];
+    var i: usize = 0;
+    for (0..arr.len - 1) |j| {
+        if (arr[j] <= pivot) {
+            const tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+            i += 1;
+        }
+    }
+    const tmp = arr[i];
+    arr[i] = arr[arr.len - 1];
+    arr[arr.len - 1] = tmp;
+    return i;
+}""",
+    R"""fn isPalindrome(s: []const u8) bool {
+    var left: usize = 0;
+    var right: usize = s.len - 1;
+    while (left < right) {
+        if (s[left] != s[right]) return false;
+        left += 1;
+        right -= 1;
+    }
+    return true;
+}""",
+    R"""fn power(base: u32, exp: u32) u32 {
+    if (exp == 0) return 1;
+    if (exp % 2 == 0) {
+        const half = power(base, exp / 2);
+        return half * half;
+    }
+    return base * power(base, exp - 1);
+}""",
+    R"""fn countChar(s: []const u8, c: u8) usize {
+    var count: usize = 0;
+    for (s) |ch| {
+        if (ch == c) count += 1;
+    }
+    return count;
+}""",
+    R"""fn findMax(arr: []const i32) i32 {
+    var max = arr[0];
+    for (arr[1..]) |x| {
+        if (x > max) max = x;
+    }
+    return max;
+}""",
+    R"""fn towerOfHanoi(n: u32, from: u8, to: u8, aux: u8) void {
+    if (n == 1) {
+        std.debug.print("Move 1 from {c} to {c}\n", .{ from, to });
+        return;
+    }
+    towerOfHanoi(n - 1, from, aux, to);
+    std.debug.print("Move {} from {c} to {c}\n", .{ n, from, to });
+    towerOfHanoi(n - 1, aux, to, from);
+}""",
+    R"""fn digitSum(n: u32) u32 {
+    var sum: u32 = 0;
+    var tmp = n;
+    while (tmp != 0) {
+        sum += tmp % 10;
+        tmp /= 10;
+    }
+    return sum;
+}""",
+    R"""fn isArmstrong(n: u32) bool {
+    var sum: u32 = 0;
+    var tmp = n;
+    var digits: u32 = 0;
+    while (tmp != 0) {
+        tmp /= 10;
+        digits += 1;
+    }
+    tmp = n;
+    while (tmp != 0) {
+        const d = tmp % 10;
+        var p: u32 = 1;
+        for (0..digits) |_| {
+            p *= d;
+        }
+        sum += p;
+        tmp /= 10;
+    }
+    return sum == n;
+}""",
+    R"""const Node = struct {
+    data: i32,
+    next: ?*Node,
+};
+
+fn insertFront(head: ?*Node, allocator: *std.mem.Allocator, val: i32) ?*Node {
+    const newNode = allocator.create(Node) catch unreachable;
+    newNode.* = .{ .data = val, .next = head };
+    return newNode;
+}""",
+    R"""fn reverseList(head: ?*Node) ?*Node {
+    var prev: ?*Node = null;
+    var curr = head;
+    while (curr) |node| {
+        const next = node.next;
+        node.next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}""",
+    R"""fn inorder(root: ?*TreeNode) void {
+    if (root) |node| {
+        inorder(node.left);
+        std.debug.print("{} ", .{node.val});
+        inorder(node.right);
+    }
+}""",
+    R"""fn searchBST(root: ?*TreeNode, key: i32) ?*TreeNode {
+    var curr = root;
+    while (curr) |node| {
+        if (node.val == key) return curr;
+        if (key < node.val) {
+            curr = node.left;
+        } else {
+            curr = node.right;
+        }
+    }
+    return null;
+}""",
+    R"""fn enqueue(q: []i32, rear: *usize, size: usize, val: i32) void {
+    if (rear.* == size - 1) return;
+    rear.* += 1;
+    q[rear.*] = val;
+}
+
+fn dequeue(q: []i32, front: *usize, rear: *usize) ?i32 {
+    if (front.* > rear.*) return null;
+    const val = q[front.*];
+    front.* += 1;
+    return val;
+}""",
+    R"""const Stack = struct {
+    data: [100]i32 = undefined,
+    top: i32 = -1,
+
+    fn push(self: *Stack, val: i32) void {
+        if (self.top < 99) {
+            self.top += 1;
+            self.data[@intCast(self.top)] = val;
+        }
+    }
+
+    fn pop(self: *Stack) ?i32 {
+        if (self.top == -1) return null;
+        const val = self.data[@intCast(self.top)];
+        self.top -= 1;
+        return val;
+    }
+};""",
+    R"""const TreeNode = struct {
+    val: i32,
+    left: ?*TreeNode,
+    right: ?*TreeNode,
+};
+
+fn createNode(allocator: *std.mem.Allocator, val: i32) ?*TreeNode {
+    const node = allocator.create(TreeNode) catch return null;
+    node.* = .{ .val = val, .left = null, .right = null };
+    return node;
+}""",
+    R"""fn caesarCipher(text: []u8, shift: u8) void {
+    for (text) |*c| {
+        if (c.* >= 'a' and c.* <= 'z') {
+            c.* = (c.* - 'a' + shift) % 26 + 'a';
+        } else if (c.* >= 'A' and c.* <= 'Z') {
+            c.* = (c.* - 'A' + shift) % 26 + 'A';
+        }
+    }
+}""",
+    R"""fn xorCipher(data: []u8, key: u8) void {
+    for (data) |*byte| {
+        byte.* ^= key;
+    }
+}""",
+    R"""fn djb2(str: []const u8) u64 {
+    var hash: u64 = 5381;
+    for (str) |c| {
+        hash = ((hash << 5) +% hash) +% c;
+    }
+    return hash;
+}""",
+    R"""fn vigenereEncrypt(text: []const u8, key: []const u8, result: []u8) void {
+    for (text, 0..) |c, i| {
+        const t = c - 'A';
+        const k = key[i % key.len] - 'A';
+        result[i] = (t + k) % 26 + 'A';
+    }
+}""",
+]
+
 
 def write_highscores(highscore_file, score, username):
     if score > 0:
@@ -746,10 +1061,13 @@ if __name__ == "__main__":
         print("Select language:")
         print("1. C++")
         print("2. Rust")
+        print("3. Zig")
         choice = input("Enter number: ")
-        lang = "c++" if choice == "1" else "rust"
+        lang = { "1": "c++", "2": "rust", "3": "zig" }.get(choice, "c++")
 
-    if "rust" in lang:
+    if "zig" in lang:
+        snippet_pool = ZIG_SNIPPETS
+    elif "rust" in lang:
         snippet_pool = RUST_SNIPPETS
     else:
         snippet_pool = C_SNIPPETS
